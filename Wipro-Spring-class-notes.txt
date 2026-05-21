@@ -1,0 +1,473 @@
+Spring 
+  - It is a framework
+  - It is an open source java  framework 
+  -Used to built
+       - Web applications
+         REST APIs
+         Enterprise application
+         MicroServices
+
+INitial Release : 2003
+Rod Johnson
+
+Before Spring , Java Enterprise application used  
+  - EJB  Enterprise Java Beans
+-Problems with this approach
+-Complex configuration
+- Tight Coupling
+- Difficult testing
+- Heavy weight application
+
+Spring  Provides
+ Lightweight development
+  Loose coupling
+  Easy testing
+  Better modularity
+  simplified configuration
+
+Reduce complexity in Java application
+
+
+  spring framework is a powerful, lightweight application development framework used for java Enterprise Edition.
+  Framework of Framework - it provides support to various framework - Hibernate,Struts
+
+      
+POJO class - Plain old java object
+
+Pojo based
+Modular - only required modules
+light weight
+Integration with framework
+Easy management of objects (via DI)
+Easy testing
+Loose Coupling (Independent component)
+Better structure for large applications
+predefined template for JDBC
+
+
+Spring Modules
+
+Core  container  - Core, Beans,Context, SpEL
+AOP
+Aspects
+Instrumentation
+Messaging
+Test
+
+Data Access
+   JDBC
+   ORM
+   OXM
+   JMS
+   Transaction
+Web
+   Servlet
+   WebSocket
+   Portlet
+   Web
+
+
+Current version 7.0.7'
+
+
+Core Container
+
+The Core and Beans modules provide the fundamental parts of the framework, including the IoC and Dependency Injection features. The BeanFactory is a sophisticated implementation of the factory pattern. It removes the need for programmatic singletons and allows you to decouple the configuration and specification of dependencies from your actual program logic.
+
+
+Context module  build on  the top of  core and Beans modules
+
+context module build on the  base provided by the COre and Beans modules
+
+
+
+Java Program
+ Employee emp= new Employee();
+
+ Engine engine =new Engine();
+Car car = new Car(engine);
+    - developer create the object
+   - Here  Programmer controls object creation
+    - classes are tightly coupled
+
+Spring
+  IOC - INversion of Control
+
+Spring IOC container will create an object
+
+
+Transfer the responsibility of object creation and management from the programmer to the Spring Continer
+
+Programmer  only asks spring  "Give me the object"
+
+Normally Programmer controls objects , After IOC , Spring Container controls object
+Control is inverted - This is Inversion of Control IOC
+
+
+How Spring Implements IOC   --> DI  - Dependency Injection
+
+IOC container - manage object life cycle
+Object creation 
+object Initialization     - Object Instantiation and initialization
+DI - Dependency Injection
+Lifecycle management - creation ,.... destruction
+
+Containers
+
+1. BeanFactory
+     - Basic Container
+      org.springframework.beans 
+2. ApplicationContext
+       - Advanced Container
+        org.springframework.context 
+
+IOC - Principle
+DI - Technique to achieve IOC
+
+IOC is achieved using Dependency Injection
+
+spring framework 6.0   ----------> java 17+
+
+
+The BeanFactory interface provides an advanced configuration mechanism capable of managing any type of object. ApplicationContext is a sub-interface of BeanFactory. It adds:
+
+Easier integration with Spring’s AOP features
+
+Message resource handling (for use in internationalization)
+
+Event publication
+
+Application-layer specific contexts such as the WebApplicationContext for use in web applications.
+
+In short, the BeanFactory provides the configuration framework and basic functionality, and the ApplicationContext adds more enterprise-specific functionality. The ApplicationContext is a complete superset of the BeanFactory and is used exclusively in this chapter in descriptions of Spring’s IoC container. 
+
+
+The org.springframework.context.ApplicationContext interface represents the Spring IoC container and is responsible for instantiating, configuring, and assembling the beans
+
+The container gets its instructions on the components to instantiate, configure, and assemble by reading configuration metadata. 
+The configuration metadata can be represented as annotated component classes, configuration classes with factory methods, or external XML files or Groovy scripts.
+
+
+Configuration Metadata can be 
+ 1. XML  based
+ 2. Java based
+3. Annotation based
+
+With either format, you may compose your application and the rich interdependencies between those components.
+
+
+                                  PoJo Class
+                                      |
+Configuration Metadata   ---> Spring Container
+                                   |
+                               Ready to Use
+                              (Fully Configured System)
+
+
+  
+
+DI   types
+1. Setter based
+2. Constructor based
+                           
+
+		ApplicationContext context =  new ClassPathXmlApplicationContext("beans.xml");
+Creates IOC Container   - spring IOC container stars 
+Reads beans.xml
+Create Bean Objects                
+Inject dependencies
+Manage lifecycle
+
+
+\Spring IOC container stars
+Benas are created
+Depnendencies injected
+
+
+Scope
+ - how many objects of a bean are created  and how long they live inside the IOC container
+
+BeanScope specifies  the life cycke and Visibility of a spring bean
+
+Singleton -default - One object created
+prototype
+
+Only valid in the context of a web-aware Spring ApplicationContext.
+request
+session
+application
+websocket
+
+
+beans.xml
+
+book1  
+
+singleton
+
+It create book1  object - only one object
+ whenever you call getBean - it will supply book1 object only (single object)
+so you can store the reference in multiple reference variable
+		Book b1 = context.getBean("book1", Book.class);
+		Book b2 = context.getBean("book1", Book.class);
+b1 and b2 are refer the same object only
+
+if you make change in b2, it reflect in b1  and vice vera, because both refer the same object
+b1==b2
+
+
+prototype
+  - for each call of getBean will create a new object
+
+	<bean id="book2" class="com.springcore.model.Book" scope="prototype">
+	   <property name="bookId" value="1002" />
+	   <property name="bookName" value="Head First Servlet" />
+	   <property name="price" value="1100" />
+ 	</bean>
+---
+
+
+In Spring Core (XML configuration), init-method  and destroy-method  are used to perform lifecycle callbacks on a bean — that is, custom actions you want Spring to run  immediately after a bean is created  and just before it is destroyed
+ 
+1. init-method — Runs After Bean Creation
+
+This is used for initialization logic
+
+Spring will call this method after:
+
+1. The object is created
+2. Dependencies are injected
+3. Before the bean is ready for use
+
+ Example use cases:
+
+* Opening a database connection
+* Loading a file / cache
+* Validating configurations
+* Starting background processes
+
+XML Example
+
+ 
+<bean id="myBean" class="com.example.MyBean" init-method="init">
+</bean>
+
+Corresponding Java Class
+ 
+public class MyBean {
+    public void init() {
+        System.out.println("Init method called - resources initialized.");
+    }
+}
+ 
+
+2. `destroy-method` — Runs Before Bean Destruction
+
+This method is used to perform cleanup logic.
+Spring will call this method just before the bean is destroyed (when the container is shutting down).
+
+ Example use cases:
+
+* Closing database connections
+* Releasing file handles
+* Stopping background threads
+* Cleaning up caches
+
+XML Example
+
+ 
+<bean id="myBean" class="com.example.MyBean" destroy-method="cleanup">
+</bean>
+ 
+Corresponding Java Class
+
+ 
+public class MyBean {
+    public void cleanup() {
+        System.out.println("Destroy method called - resources cleaned.");
+    }
+}
+ 
+
+ Important: Destroy method works only for:
+
+* Singleton–scoped beans
+* And when you close the container manually:
+
+ 
+((ClassPathXmlApplicationContext) context).close();
+ 
+
+ 
+
+ Complete Example
+
+XML:
+ 
+<bean id="dbConnection" class="com.example.DBConnection"
+      init-method="openConnection" 
+      destroy-method="closeConnection">
+</bean>
+ 
+
+Class:
+
+ 
+public class DBConnection {
+
+    public void openConnection() {
+        System.out.println("DB Connection opened.");
+    }
+
+    public void closeConnection() {
+        System.out.println("DB Connection closed.");
+    }
+}
+
+----
+autowire the dependency
+
+Autowire
+
+byType
+byName
+constructor
+   	  <!--autowire="constructor"   - byType  -->
+
+
+---
+Javaconfig
+
+ @Configuration
+@Bean
+@Scope
+
+@Bean( name="cust1",   initMethod="init", destroyMethod="destroy")
+
+
+--------------------------
+Annotation based configuration Metadata
+
+@Configuration
+@componentScan("com.springcore")
+
+all the packages under com.springcore 
+@componentScan("com.springcore.model")
+
+
+
+Stereotype Annotations
+@Component
+@Controller
+@RestController
+@Service
+@Repository
+
+
+No default constructor is present.
+Spring will use the parameterized constructor automatically.
+This is called constructor injection.
+
+From Spring 4.3 onward, if there is only one constructor, @Autowired is optional.
+
+@Component
+public class EmployeeService {
+
+    private EmployeeRepository repo;
+
+    @Autowired
+    public EmployeeService(EmployeeRepository repo) {
+        this.repo = repo;
+    }
+}
+
+
+@Component
+public class EmployeeService {
+
+    private EmployeeRepository repo;
+
+    public EmployeeService(EmployeeRepository repo) {
+        this.repo = repo;
+    }
+}
+
+Both are valid.
+
+
+
+public Customer(int customerId, String customerName, String emailId) {
+
+    this.customerId = customerId;
+    this.customerName = customerName;
+    this.emailId = emailId;
+
+    System.out.println("Parameterized Constructor : " + customerId);
+}
+
+If you annotate the class with @Component:
+@Component
+public class Customer {
+
+
+Spring will NOT be able to create the object automatically because:
+
+int
+String
+
+are not Spring beans by default.
+
+Spring knows how to inject objects like:
+
+@Autowired
+private CustomerService service;
+
+
+because CustomerService is a bean.
+
+But for primitive/simple values, Spring needs explicit values.
+
+You can make it work using @Value:
+
+@Component
+public class Customer {
+
+    private int customerId;
+    private String customerName;
+    private String emailId;
+
+    public Customer(
+            @Value("101") int customerId,
+            @Value("John") String customerName,
+            @Value("john@gmail.com") String emailId) {
+
+        this.customerId = customerId;
+        this.customerName = customerName;
+        this.emailId = emailId;
+
+        System.out.println("Parameterized Constructor : " + customerId);
+    }
+}
+
+---------------------
+Spring can automatically detect stereotyped classes and register corresponding BeanDefinition instances with the ApplicationContext. For example, the following two classes are eligible for such autodetection:
+
+ 
+@Component
+public class MovieFinder {
+
+    public void findMovie() {
+
+        System.out.println("Movie Found");
+    }
+}
+
+@Service
+public class SimpleMovieLister {
+
+	private final MovieFinder movieFinder;
+
+	public SimpleMovieLister(MovieFinder movieFinder) {
+		this.movieFinder = movieFinder;
+	}
+}

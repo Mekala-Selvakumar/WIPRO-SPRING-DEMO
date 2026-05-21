@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		https://www.springframework.org/schema/beans/spring-beans.xsd"  >
+	 
+	 <bean id="dept1" class="com.springcore.model.Department">
+	   <property name="departmentId" value="10" />
+	   <property name="departmentName" value="Admin" />
+	   <property name="location" value="Chennai" />
+	 </bean>
+	 
+	 <bean id="employee1" class="com.springcore.model.Employee">
+	  <property name="employeeId" value="12345"/>
+	  	  <property name="employeeName" value="Tom"/>
+	  	  <property name="salary" value="25000"/>
+	  	  <property name="department" ref="dept1"/>
+	  </bean>
+	
+ 	  <!-- Customer cust1 = new Customer(88899,"RajaRajan","raja@gmail.com");  -->
+  	  <bean id="cust1" class="com.springcore.model.Customer" init-method="init"
+  	        destroy-method="destroy">
+ 	   <constructor-arg name="customerId" value="88899" />
+ 	  <constructor-arg  name="customerName" value="RajaRajan" />
+ 	  <constructor-arg name="emailId" value="raja@gmail.com" />
+  	  </bean>
+  	  
+  	  <bean id="cust2" class="com.springcore.model.Customer" >
+ 	   <constructor-arg name="customerId" value="88877" />
+ 	  <constructor-arg  name="customerName" value="Pandiyan" />
+ 	  <constructor-arg name="emailId" value="pandiya@gmail.com" />
+  	  </bean>
+  	    <!-- it will call the default constructor -->
+ 	  <bean id="cust3" class="com.springcore.model.Customer" init-method="init"  
+ 	  lazy-init="true">
+ 	  </bean>
+ 	  
+  	  <bean id="account1" class="com.springcore.model.Account"  lazy-init="true" >
+  	    <constructor-arg  name="accountNumber" value="1234567" />
+  	    <constructor-arg name="accountType" value="Savings" />
+  	    <constructor-arg  name="balance"  value="50000"/>
+  	    <constructor-arg name="customer" ref="cust1" />
+   	  </bean>
+
+ 	 
+
+</beans>
