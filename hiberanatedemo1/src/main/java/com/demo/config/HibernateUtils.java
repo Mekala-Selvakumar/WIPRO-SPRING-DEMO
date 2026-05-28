@@ -1,5 +1,6 @@
 package com.demo.config;
 
+import java.beans.Customizer;
 import java.util.Properties;
 
 import org.hibernate.SessionFactory;
@@ -9,6 +10,12 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
 
 import com.demo.model.Book;
+import com.demo.model.Customer;
+import com.demo.model.Department;
+import com.demo.model.Employee;
+import com.demo.model.Order;
+import com.demo.model.Passport;
+import com.demo.model.Person;
 
 public class HibernateUtils {
 	private static SessionFactory sessionFactory;
@@ -39,6 +46,12 @@ public class HibernateUtils {
 
 				MetadataSources metadataSources = new MetadataSources(serviceRegistry);
 				metadataSources.addAnnotatedClass(Book.class);
+				metadataSources.addAnnotatedClass(Department.class);
+				metadataSources.addAnnotatedClass(Employee.class);
+				metadataSources.addAnnotatedClass(Customer.class);
+				metadataSources.addAnnotatedClass(Order.class);
+metadataSources.addAnnotatedClass(Person.class);
+metadataSources.addAnnotatedClass(Passport.class);
 
 				Metadata metaData = metadataSources.getMetadataBuilder().build();
 				sessionFactory = metaData.getSessionFactoryBuilder().build();

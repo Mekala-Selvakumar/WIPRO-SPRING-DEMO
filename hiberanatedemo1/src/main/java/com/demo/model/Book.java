@@ -5,12 +5,20 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 
 //by default it  will creat the table -Book   - default tablename  is classname 
 //custom tablename
 @Entity
 @Table(name = "Book_Master")
+//@NamedQuery(name = "Book.findAll",query = "from Book")
+@NamedQueries({
+		@NamedQuery(name = "Book.findAll",query = "from Book"),
+		@NamedQuery(name="Book.findByPrice" ,query="from Book where price>:price")
+})
+
 public class Book {
 	@Id
 	@Column(name = "book_id")
