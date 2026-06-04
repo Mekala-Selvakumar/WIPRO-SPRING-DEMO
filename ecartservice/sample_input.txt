@@ -1,0 +1,22 @@
+{
+    "cartId": 2,
+    "emailId": "jerry@gmail.com",
+    "cartItems": [
+        {
+            "product": {
+                "productId": 901,
+                "productName": "Crayons",
+                "price": 100
+            },
+            "quantity": 15
+        },
+        {
+            "product": {
+                "productId": 987,
+                "productName": "Water Color",
+                "price": 200
+            },
+            "quantity": 10
+        }
+    ]
+}
