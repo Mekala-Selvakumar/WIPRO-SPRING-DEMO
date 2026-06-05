@@ -1,3 +1,5 @@
+Choose :POST method
+http://localhost:9092/api/v1/carts
 {
     "cartId": 2,
     "emailId": "jerry@gmail.com",
