@@ -19,6 +19,13 @@ import com.learn.productapp.exceptions.InvalidPriceException;
 import com.learn.productapp.exceptions.ProductNotFoundException;
 import com.learn.productapp.service.ProductService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+
+@Tag(name ="Product Controller",
+description ="Operations to related to Product")
+
 @RestController
 @RequestMapping("/api/v1")
 public class ProductController {
@@ -58,7 +65,9 @@ public class ProductController {
 		return ResponseEntity.status(HttpStatus.OK).body(productList);
 	}
 	
-	
+	@Operation(
+			summary = "Get Product BY Id",
+			description = "Returns a product based on the given id")
 	@GetMapping("/products/{id}")
 	public ResponseEntity<Product> getProdutById(@PathVariable("id") int productId) throws  ProductNotFoundException{
 		Product product =productService.getProductById(productId);
