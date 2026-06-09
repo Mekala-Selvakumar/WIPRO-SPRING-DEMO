@@ -89,8 +89,7 @@ public class ProductController {
 	@GetMapping("/products/price/{price}")
 	public ResponseEntity<?> getAllProductByPriceGreaterThan(@PathVariable int price) {
 		List<Product> productList = productService.getProductBYPriceGreaterThan(price);
-//	return ResponseEntity.ok(productList);
-		return ResponseEntity.status(HttpStatus.OK).body(productList);
+ 		return ResponseEntity.status(HttpStatus.OK).body(productList);
 	}
 	
 	
