@@ -1,0 +1,17 @@
+{
+    "bookId" :"101",
+    "bookTitle":"The Complete Reference -Java",
+    "author" :"Herbert Schildt",
+    "price" :"1200"
+}
+
+{
+    "bookId" :"102",
+    "bookTitle":"The Complete Reference -C",
+    "author" :"Herbert Schildt",
+    "price" :"1500"
+}
+
+
+The method defaultIfEmpty(ResponseEntity<Book>) in the type Mono<ResponseEntity<Book>> is not applicable 
+for the arguments (ResponseEntity<String>)
